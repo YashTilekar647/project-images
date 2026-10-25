@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python-Based Pre-Harvest Pomegranate Fruit Detection, Yield Estimation and Production Assessment</title>
+  <style>
+    body {
+      font-family: "Times New Roman", Times, serif;
+      margin: 0;
+      background: #ffffff;
+      color: #111111;
+      line-height: 1.6;
+      font-size: 12pt;
+    }
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 60px 72px;
+    }
+    h1, h2, h3, h4, h5 {
+      font-family: "Times New Roman", Times, serif;
+      color: #111111;
+      page-break-after: avoid;
+      margin-top: 1.1em;
+      margin-bottom: 0.4em;
+    }
+    h1 { font-size: 22pt; text-align: center; }
+    h2 { font-size: 18pt; }
+    h3 { font-size: 14pt; }
+    p { text-align: justify; margin: 0.7em 0; }
+    ul, ol { margin-top: 0.5em; margin-bottom: 0.8em; }
+    li { margin-bottom: 0.25em; }
+    .center { text-align: center; }
+    .small { font-size: 10pt; }
+    .caption { text-align: center; font-style: italic; margin-top: 0.35em; }
+    .figure-wrap {
+      margin: 1.2em auto;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+    .figure-wrap img {
+      width: 100%;
+      max-width: 820px;
+      border: 1px solid #111;
+      background: #fff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em 0;
+      page-break-inside: avoid;
+    }
+    table, th, td {
+      border: 1px solid #111;
+    }
+    th, td {
+      padding: 8px 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+    .toc a {
+      color: #111;
+      text-decoration: none;
+    }
+    .toc ul { list-style: none; padding-left: 0; }
+    .toc li { margin-bottom: 0.15em; }
+    .section-number { font-weight: bold; }
+    .abstract-box {
+      border: 1px solid #111;
+      padding: 1em 1.2em;
+      margin-top: 1em;
+      background: #fafafa;
+    }
+    .page-break { page-break-before: always; }
+    .equation {
+      text-align: center;
+      margin: 1em 0;
+      font-style: italic;
+    }
+    .footnote { font-size: 10pt; }
+    @media print {
+      body { margin: 0; }
+      .page { max-width: none; margin: 0; padding: 0.75in; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Python-Based Pre-Harvest Pomegranate Fruit Detection, Yield Estimation and Production Assessment</h1>
+    <p class="center" style="margin-top: 2em;">M.Tech. Dissertation / Academic Report</p>
+    <p class="center">Prepared from the repository evidence and extracted research figures</p>
+    <p class="center">[Student / Author Name as applicable]</p>
+    <p class="center">[Department / Institution]</p>
+    <p class="center">[Month, Year]</p>
+
+    <div class="page-break"></div>
+
+    <h2>Abstract</h2>
+    <div class="abstract-box">
+      <p>Pre-harvest estimation of fruit yield and production remains an important problem in precision agriculture because the final commercial output depends on crop development, fruit visibility, occlusion, and uncertainty in the conversion between fruit count and physical mass. In pomegranate orchards, manual inspection is labour-intensive, inconsistent, and poorly suited to large-scale estimation across canopy variability and seasonal growth. This report consolidates evidence across selected research papers and extracted visual materials from the repository concerning on-tree fruit detection, growth-stage phenotyping, temporal tracking, and economic decision models. The emphasis is on the scientific and applied challenge of converting fruit detections into a reliable estimate of orchard production and economic value.</p>
+      <p>The reviewed studies collectively indicate that computer vision methods are increasingly capable of localisation, growth-stage classification, fruit counting, and size estimation under in-field conditions. However, the transition from image-level detections to accurate orchard-level production assessment continues to be limited by occlusion, duplicate counting across viewpoints, uncertain fruit-to-mass calibration, and variation in canopy geometry. In the repository, the extracted figures support this interpretation by showing representative YOLO-based detection pipelines, temporal tracking and harvest prediction workflows, pomegranate size estimation approaches, and related economic/valuation charts.</p>
+      <p>This report is organised around the research problem, the limitations of isolated solutions, the temporal dimension of fruit development, the economic context of agricultural decisions, and the final research gap: the count-to-mass calibration problem. The central argument is that reliable pre-harvest production estimation requires integration of detection, tracking, size estimation, calibration, and orchard-level aggregation under uncertainty. The proposed system architecture therefore frames agricultural production assessment as a multi-stage pipeline rather than a single image-classification task.</p>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2>Table of Contents</h2>
+    <div class="toc">
+      <ul>
+        <li><a href="#front-matter">Front Matter</a></li>
+        <li><a href="#section-1">1. INTRODUCTION</a>
+          <ul>
+            <li><a href="#s1-1">1.1 Background and Motivation</a></li>
+            <li><a href="#s1-2">1.2 Pre-Harvest Pomegranate Production Estimation Problem</a></li>
+            <li><a href="#s1-3">1.3 Limitations of Manual Assessment and Existing Approaches</a></li>
+            <li><a href="#s1-4">1.4 Role of Computer Vision and Machine Learning</a></li>
+            <li><a href="#s1-5">1.5 Problem Statement</a></li>
+            <li><a href="#s1-6">1.6 Research Objectives</a></li>
+            <li><a href="#s1-7">1.7 Scope and Significance of the Study</a></li>
+            <li><a href="#s1-8">1.8 Organization of the Report</a></li>
+          </ul>
+        </li>
+        <li><a href="#section-2">2. ON-TREE PHENOTYPING: ISOLATED SOLUTIONS AND LIMITATIONS</a>
+          <ul>
+            <li><a href="#s2-1">2.1 Naseer et al. (2024): Pomegranate Growth-Stage Classification</a></li>
+            <li><a href="#s2-2">2.2 Zhao et al. (2024): YOLO-Granada Fruit Detection</a></li>
+            <li><a href="#s2-3">2.3 Devanna et al. (2025): On-Tree Detection and 3D Fruit-Size Estimation</a></li>
+            <li><a href="#s2-4">2.4 Comparative Analysis of On-Tree Phenotyping Methods</a></li>
+          </ul>
+        </li>
+        <li><a href="#section-3">3. TEMPORAL TRACKING AND THE TIME DIMENSION</a>
+          <ul>
+            <li><a href="#s3-1">3.1 Giménez-Gallego et al. (2025): On-Tree Tracking and Harvest-Date Prediction</a></li>
+            <li><a href="#s3-2">3.2 Dataset, Camera Setup, and Tracking Methodology</a></li>
+            <li><a href="#s3-3">3.3 Temporal Feature Extraction and Prediction Results</a></li>
+            <li><a href="#s3-4">3.4 Critical Analysis and Limitations</a></li>
+            <li><a href="#s3-5">3.5 Relevance to Pre-Harvest Production Estimation</a></li>
+          </ul>
+        </li>
+        <li><a href="#section-4">4. ECONOMIC CONTEXT AND DECISION UNCERTAINTY</a>
+          <ul>
+            <li><a href="#s4-1">4.1 Mahajan et al. (2026): Agricultural Commodity Price Forecasting</a></li>
+            <li><a href="#s4-2">4.2 Nematollahi et al. (2025): Contract Farming Under Uncertainty</a></li>
+            <li><a href="#s4-3">4.3 Abdurakhman et al. (2025): Fruit-Tree Lease Valuation</a></li>
+            <li><a href="#s4-4">4.4 Comparative Analysis of Economic Models</a></li>
+            <li><a href="#s4-5">4.5 Relevance of Reliable Production Estimates to Agricultural Decisions</a></li>
+          </ul>
+        </li>
+        <li><a href="#section-5">5. RESEARCH GAPS: THE COUNT-TO-MASS CALIBRATION PROBLEM</a>
+          <ul>
+            <li><a href="#s5-1">5.1 Detection Versus Unique Fruit Counting</a></li>
+            <li><a href="#s5-2">5.2 Canopy Occlusion and Visibility Limitations</a></li>
+            <li><a href="#s5-3">5.3 Fruit Diameter Versus Physical Mass</a></li>
+            <li><a href="#s5-4">5.4 Multi-View Duplicate Detection and Temporal Tracking</a></li>
+            <li><a href="#s5-5">5.5 Missing Link Between Fruit Sensing and Total Production</a></li>
+            <li><a href="#s5-6">5.6 Limitations of Existing Economic Models for Physical Yield Estimation</a></li>
+            <li><a href="#s5-7">5.7 Comparative Research-Gap Table</a></li>
+            <li><a href="#s5-8">5.8 Final Research-Gap Statement</a></li>
+          </ul>
+        </li>
+        <li><a href="#section-6">6. PROPOSED SYSTEM ARCHITECTURE AND EVALUATION PROTOCOL</a>
+          <ul>
+            <li><a href="#s6-1">6.1 Problem Statement and Core Objectives</a></li>
+            <li><a href="#s6-2">6.2 Proposed Python-Based System Architecture</a></li>
+            <li><a href="#s6-3">6.3 System Workflow and Module Description</a></li>
+            <li><a href="#s6-4">6.4 Dataset Requirements and Image Acquisition</a></li>
+            <li><a href="#s6-5">6.5 Fruit Detection, Segmentation, and Counting</a></li>
+            <li><a href="#s6-6">6.6 Fruit-Size Estimation and Mass Calibration</a></li>
+            <li><a href="#s6-7">6.7 Tree-Level Yield and Orchard Production Estimation</a></li>
+            <li><a href="#s6-8">6.8 Mathematical Formulation and Assumptions</a></li>
+            <li><a href="#s6-9">6.9 Validation Protocol and Evaluation Metrics</a></li>
+            <li><a href="#s6-10">6.10 Expected Outcomes</a></li>
+            <li><a href="#s6-11">6.11 Scope Boundaries, Feasibility, and Implementation Roadmap</a></li>
+            <li><a href="#s6-12">6.12 Limitations and Future Work</a></li>
+          </ul>
+        </li>
+        <li><a href="#references">References</a></li>
+      </ul>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2>List of Figures</h2>
+    <ol>
+      <li>YOLO-Granada crop-detection output: representative on-tree fruit detection visualisation.</li>
+      <li>Fruit tracking and harvest prediction pipeline showing temporal fruit association.</li>
+      <li>Pomegranate size-estimation robot: segmentation and 3D/diameter estimation view.</li>
+      <li>Agricultural price forecasting workflow and market trend chart.</li>
+      <li>Fruit-tree lease valuation model and uncertainty-driven decision chart.</li>
+    </ol>
+
+    <h2>List of Tables</h2>
+    <ol>
+      <li>Summary of reviewed technical papers and domains.</li>
+      <li>Research-gap comparison: detection, occlusion, count, diameter, mass, and orchard-level inference.</li>
+      <li>Evaluation criteria for proposed system validation.</li>
+    </ol>
+
+    <div class="page-break"></div>
+
+    <h2 id="front-matter">Front Matter</h2>
+    <p>The present document is structured in the conventional thesis/report format required for an academic M.Tech. report. The content is reconstructed from the repository files, figure index, and the literature themes represented by the uploaded papers and extracted images. Where numerical values or exact captions are unavailable in the repository index, the discussion is framed at the level of methodological evidence and research interpretation rather than fabricated quantitative claims.</p>
+    <p>All figure numbers and table numbers in this report are intended to be sequentially updated in the final polished version of the document. The images in the repository provide strong visual support for the narrative and are retained where appropriate to preserve the visual evidence base of the report.</p>
+
+    <div class="page-break"></div>
+
+    <h2 id="section-1">1. INTRODUCTION</h2>
+    <h3 id="s1-1">1.1 Background and Motivation</h3>
+    <p>Pre-harvest estimation of fruit yield and production is a major challenge in orchard management, particularly for high-value crops such as pomegranate. Yield is not merely a question of counting visible fruits; it depends on growth stage, canopy density, fruit diameter, mass, visibility, temporal maturation, and orchard distribution. Traditional methods based on visual inspection, sampling, or manual counting are labour-intensive, expensive, and subject to human bias. These limitations are amplified in orchards where tree canopies are dense, fruit are partially occluded, and fruit development varies across branches, trees, and seasons.</p>
+    <p>Precision agriculture and computer vision offer a more systematic alternative by enabling automated detection, segmentation, and measurement from on-tree images. In the context of pomegranate production, the objective is not only to find fruit in images but also to derive a consistent estimate of orchard production that can be used in planning, harvest scheduling, supply-chain decisions, and economic risk assessment. The repository material illustrates the main technical directions in this area: growth-stage classification, YOLO-based detection, tracking and harvest prediction, and size/mass estimation systems.</p>
+
+    <h3 id="s1-2">1.2 Pre-Harvest Pomegranate Production Estimation Problem</h3>
+    <p>The core problem is the conversion of image-based observations to total crop production or marketable yield. A fruit count alone is insufficient because fruit size and mass vary significantly across orchard conditions. A fruit detection model may detect visible fruit instances with useful spatial localisation, yet fail to estimate non-visible or partially occluded fruit, or incorrectly count the same fruit across multiple views. For production assessment, the relevant quantity is not simply a count but a calibrated mass or yield estimate tied to tree-level and orchard-level aggregation.</p>
+    <p>In practical orchard management, a reliable estimate has to support seasonal decisions such as harvest timing, labour planning, storage, and market supply expectations. Therefore, the challenge is conceptually broader than object detection. It is a count-to-mass-to-production pipeline that must integrate sensing, calibration, uncertainty management, and decision support.</p>
+
+    <h3 id="s1-3">1.3 Limitations of Manual Assessment and Existing Approaches</h3>
+    <p>Manual estimation is difficult because it depends on trained observers being able to estimate fruit presence, fruit size, and crop load without consistent visual sampling. In dense canopies, objects can be hidden behind leaves, branch overlap, and shadowing. Manual estimates are also inconsistent across time and across persons, making them weakly reproducible. Even when automated methods are adopted, many systems remain limited to image-level detection and are not tightly coupled to the production-estimation objective.</p>
+    <p>In many agricultural contexts, isolated solutions focus on a single sub-problem: fruit detection, growth-stage recognition, segmentation, or network architecture evaluation. These solutions are valuable, but they do not necessarily resolve the broader challenge of orchard yield estimation. The gap is especially severe when a model counts fruit instances without linking them to fruit diameter, mass, visibility probability, or duplicate-removal across views. This is the fundamental reason why detection systems alone cannot be treated as complete production-estimation pipelines.</p>
+
+    <h3 id="s1-4">1.4 Role of Computer Vision and Machine Learning</h3>
+    <p>Computer vision and machine learning have become central to orchard monitoring because they can process high-dimensional visual data, learn object patterns from annotated data, and operate at scale on images captured in situ. Detection models such as YOLO are especially effective for real-time localisation and object recognition. More advanced methods incorporate segmentation, geometry estimation, tracking, and temporal modelling to estimate developmental changes over time.</p>
+    <p>For pre-harvest production estimation, the value of these methods lies in their ability to connect visible fruit evidence to downstream variables such as diameter, mass, fruit maturity, and final yield. The repository’s figures show the breadth of this pipeline: YOLO-based fruit detection, tracking pipelines, segmentation masks and depth/3D projections, and economic trend visualisations that indicate how yield uncertainty interacts with decision-making. Together, these elements demonstrate the potential of vision-guided agricultural decision support.</p>
+
+    <h3 id="s1-5">1.5 Problem Statement</h3>
+    <p>The problem addressed in this report is to develop a scientifically grounded and practically feasible methodological framework for pre-harvest pomegranate fruit detection, yield estimation, and production assessment using Python-based image processing, computer vision, and supporting economic interpretation. The framework must account for orchard complexity, canopy occlusion, multi-view duplication, fruit size variation, and the uncertainty in converting detected fruit into commercial production estimates.</p>
+    <p>In the context of this report, the main research challenge is not merely detection accuracy but the count-to-mass calibration problem: converting fruit counts and fruit dimensions into an estimate of orchard-level production that is meaningful for farm planning and economic decision-making.</p>
+
+    <h3 id="s1-6">1.6 Research Objectives</h3>
+    <ul>
+      <li>To review and synthesise the literature on on-tree pomegranate phenotyping, fruit detection, and yield estimation from the relevant scientific studies and repository evidence.</li>
+      <li>To evaluate the strengths and limitations of isolated detection, growth-stage, tracking, and estimation methods in the context of pre-harvest production forecasting.</li>
+      <li>To identify the technical research gaps that prevent current methods from producing robust orchard-level production estimates.</li>
+      <li>To propose a Python-based system architecture that integrates detection, segmentation, size estimation, and yield calibration.</li>
+      <li>To present a validation protocol and evaluation framework suitable for orchard studies under uncertain field conditions.</li>
+    </ul>
+
+    <h3 id="s1-7">1.7 Scope and Significance of the Study</h3>
+    <p>The scope of the report is limited to the literature and repository materials relevant to pomegranate crop estimation and related production decision contexts. It includes detection, growth-stage classification, tracking, size and diameter estimation, and economic forecasting models that influence agricultural decisions. It does not claim to resolve all agronomic issues in orchard management, but it provides a structured foundation for a practical and research-driven yield-estimation pipeline.</p>
+    <p>The significance of the study lies in the fact that production estimation is both a technical problem and an agricultural decision problem. Accurate estimates improve labour allocation, harvest scheduling, storage planning, and supply forecasting. In the presence of market and price uncertainty, even moderately improved estimates can support more informed economic decisions over the crop cycle.</p>
+
+    <h3 id="s1-8">1.8 Organization of the Report</h3>
+    <p>The remaining chapters follow the structure required for the academic report. The review begins with isolated phenotyping solutions and their limitations, continues with the temporal tracking dimension, and then introduces the economic context in which reliable production forecasts matter. This is followed by an explicit discussion of the research gaps, and finally by a proposed Python-based system architecture and evaluation protocol.</p>
+
+    <div class="page-break"></div>
+
+    <h2 id="section-2">2. ON-TREE PHENOTYPING: ISOLATED SOLUTIONS AND LIMITATIONS</h2>
+    <p>On-tree phenotyping methods attempt to estimate crop state directly from images of the tree canopy. Several papers in the review are directly relevant to pomegranate or fruit-tree crop sensing. Collectively, they reveal the fact that detection, size estimation, and development-stage classification are feasible but remain isolated solutions unless they are integrated into a yield-estimation framework.</p>
+
+    <h3 id="s2-1">2.1 Naseer et al. (2024): Pomegranate Growth-Stage Classification</h3>
+    <p><strong>Full citation:</strong> Naseer, A., et al. (2024). <em>Pomegranate Growth-Stage Classification</em>. [Repository literature context; retained with original paper title and author details where available in the final publication record.]</p>
+    <p><strong>Dataset &amp; Hardware:</strong> The study is aligned to image-based orchard phenotyping and is relevant to pomegranate crop development analysis in field conditions. The paper uses crop imagery acquired from orchards or controlled growth observation setups, with a focus on classification of growth stages rather than full orchard-level production measurement.</p>
+    <p><strong>Core Architecture/Method:</strong> The method centres on image-based recognition of phenological stages and fruit development conditions. In general, such approaches rely on features derived from fruit appearance, canopy structure, and developmental morphology, often using deep learning or classical image descriptors for classification.</p>
+    <p><strong>Key Metrics:</strong> The contribution is primarily methodological and classification-oriented. The key value of the paper is in identifying the progression of fruit development, which is necessary for any temporally grounded yield model.</p>
+    <p><strong>Critical analysis:</strong> Growth-stage classification helps describe when fruit is developing and how canopy presentation changes over time. However, stage classification alone does not determine final mass or overall production. It is therefore an enabling step rather than a complete yield-estimation solution. It also remains sensitive to illumination, occlusion, and image acquisition geometry if the model is trained on narrow conditions.</p>
+
+    <h3 id="s2-2">2.2 Zhao et al. (2024): YOLO-Granada Fruit Detection</h3>
+    <div class="figure-wrap">
+      <img src="https://raw.githubusercontent.com/YashTilekar647/project-images/main/page03_figure01_2008x1006.png" alt="YOLO-Granada fruit detection output" />
+      <div class="caption">Figure 1. Representative YOLO-Granada detection output from the repository figure set.</div>
+    </div>
+    <p><strong>Full citation:</strong> Zhao, Y., et al. (2024). <em>YOLO-Granada: Fruit Detection and On-Tree Vision Pipeline</em>. [Use the exact paper bibliographic record in the final reference list.]</p>
+    <p><strong>Dataset &amp; Hardware:</strong> The publication is associated with orchard imaging and computer-vision-based fruit detection. The repository’s extracted figures indicate a model pipeline designed for fruit localisation and orchard-level visual recognition under real field conditions. This suggests acquisition using camera-based orchard imagery with a focus on efficiency and real-time detection capability.</p>
+    <p><strong>Core Architecture/Method:</strong> The YOLO-Granada pipeline belongs to the family of single-stage object detectors and is designed to detect fruit within tree canopies. Its main strengths are fast inference, practical field deployment, and strong localisation performance for visible fruit. The architecture is well-suited to the early detection stage of a yield pipeline.</p>
+    <p><strong>Key Metrics:</strong> The typical model outputs for this category include detection precision, recall, F1-score, and mean average precision. These metrics are relevant, although the repository does not provide exact numbers for every figure. The methodological significance is the direct detection of fruit objects from orchard images.</p>
+    <p><strong>Critical analysis:</strong> YOLO-based detection substantially improves the speed and scalability of fruit recognition compared with manual inspection. However, a box or detection label is not equivalent to a count of unique fruit across the whole tree or orchard. Because fruit may be partially occluded, appear from multiple viewpoints, or be repeated across overlapping images, object detection alone does not guarantee a physically accurate production estimate. The method remains strongest as a front-end sensing component, not as a complete yield-estimation framework.</p>
+
+    <h3 id="s2-3">2.3 Devanna et al. (2025): On-Tree Detection and 3D Fruit-Size Estimation</h3>
+    <div class="figure-wrap">
+      <img src="https://raw.githubusercontent.com/YashTilekar647/project-images/main/page12_figure32_3419x1485.jpeg" alt="Pomegranate size estimation robot figure" />
+      <div class="caption">Figure 2. Pomegranate size-estimation and robot-vision pipeline from the repository figure set.</div>
+    </div>
+    <p><strong>Full citation:</strong> Devanna, F., et al. (2025). <em>On-Tree Detection and 3D Fruit-Size Estimation</em>. [Use the exact publication title and citation in the final references.]</p>
+    <p><strong>Dataset &amp; Hardware:</strong> The paper is associated with in-field sensing and machine-vision-based fruit measurement. The repository names and image dimensions suggest a robotic or image-based measurement system with segmentation, depth cues, and 3D fruit measurement. The hardware context likely includes camera rigs, depth sensing, and a structured measurement workflow.</p>
+    <p><strong>Core Architecture/Method:</strong> The workflow includes detection, segmentation, and geometric estimation of fruit diameter or fruit size. This is critical because the physical mass of a fruit is not directly derivable from image detection alone. Several extracted figures show crop masks, depth/3D projection, and fruit-diameter estimation, indicating a pipeline that moves beyond object recognition and into physical measurement.</p>
+    <p><strong>Key Metrics:</strong> The relevant evaluation indicators include fruit diameter estimation accuracy, segmentation quality, and correspondence between image geometry and physical fruit size. These measures matter because production estimation is sensitive to fruit mass and size distribution.</p>
+    <p><strong>Critical analysis:</strong> This paper addresses a key weakness of detection-only approaches: image-based fruit size estimation. Even so, the challenge remains to translate fruit-size measurements into tree-level yield and orchard production given unknown fruit mass relationships, occlusion, and cross-view duplication. Therefore, 3D and size-estimation methods are necessary but not sufficient on their own. They need calibration with fruit mass and multi-view aggregation.</p>
+
+    <h3 id="s2-4">2.4 Comparative Analysis of On-Tree Phenotyping Methods</h3>
+    <p>A comparative reading of the three phenotyping papers reveals three progressive steps in the technical pipeline: (i) recognition of crop stage, (ii) localisation of visible fruit, and (iii) measurement of physical fruit dimensions. The first step helps describe plant development, the second supports fruit counting and monitoring, and the third enables biological interpretation of fruit size or mass. The progression is important because it reflects an evolution from classification to sensing to measurement.</p>
+    <p>Nevertheless, the review also shows a recurring limitation: the reviewed methods provide useful isolated evidence but do not by themselves solve the agricultural production problem. Yield depends on both count and mass, and on the ability to aggregate fruit observations across the entire tree or orchard. The repository’s extracted figures and paper collection illustrate this gap clearly: the technical literature contains strong detection and measurement components, but their integration into a full production-estimation pipeline remains incomplete.</p>
+
+    <div class="page-break"></div>
+
+    <h2 id="section-3">3. TEMPORAL TRACKING AND THE TIME DIMENSION</h2>
+    <p>Crop yield is not static. Fruit development changes over time, and so does visibility, canopy overlap, and the probability of occlusion. This is why temporal tracking is essential: it allows fruit to be linked across observations, helps in harvest-date prediction, and reduces counting errors caused by repeated detections or missed detections over time.</p>
+
+    <h3 id="s3-1">3.1 Giménez-Gallego et al. (2025): On-Tree Tracking and Harvest-Date Prediction</h3>
+    <div class="figure-wrap">
+      <img src="https://raw.githubusercontent.com/YashTilekar647/project-images/main/page07_figure04_2065x1008.png" alt="Fruit-tracking and harvest prediction figure" />
+      <div class="caption">Figure 3. Temporal fruit tracking and harvest prediction visualisation from the repository.</div>
+    </div>
+    <p><strong>Full citation:</strong> Giménez-Gallego, J., et al. (2025). <em>Fruit Monitoring and Harvest-Date Prediction Using On-Tree Automatic Image Tracking</em>. [Use the exact bibliographic version in the final reference section.]</p>
+    <p><strong>Dataset, Camera Setup, and Tracking Methodology:</strong> This paper is explicitly concerned with on-tree automatic tracking and harvest-date prediction. The repository context indicates that the workflow uses time-series imagery of fruit on trees, with fruit association or tracking across successive observations. Such setups are inherently more informative than single-shot detection because they can follow the same fruit over time and interpret development trends.</p>
+    <p><strong>Core Architecture/Method:</strong> The method combines object detection or segmentation with temporal association of fruit instances across image frames. The tracking module allows the system to estimate whether a detected fruit is the same object seen previously, to reduce duplicates and to monitor changes in size, maturity, or visibility. The prediction model then uses temporal descriptors to infer harvest date or crop development progression.</p>
+    <p><strong>Key Metrics:</strong> The evaluation is usually framed in terms of tracking accuracy, association consistency, and temporal prediction quality. The main indicators include fruit association quality, prediction error, and time-series consistency. These metrics are more relevant to crop planning than one-off image classification.</p>
+    <p><strong>Critical analysis:</strong> Time-series monitoring closes a major gap in single-image methods because it allows a crop to be interpreted as a dynamic phenomenon rather than a static object set. It also reduces gross miscounting in repeated observations. However, tracking models are still vulnerable to occlusion, leaf movement, and complex canopy structures. Additionally, a forecast of harvest date is not equivalent to a reliable estimate of orchard-level production unless it can be translated into counts, fruit size distributions, and mass calibration.</p>
+
+    <h3 id="s3-2">3.2 Dataset, Camera Setup, and Tracking Methodology</h3>
+    <p>Time-series datasets are central to the temporal approach because the crop is observed across successive days or weeks. In orchard conditions, data collection commonly requires repeated image acquisition from fixed or semi-fixed camera placements, under varying illumination and canopy geometry. Typical setups carefully balance temporal resolution against the need for practical deployment. The point of repeated imaging is not only to see fruit but to maintain object identity across frames and estimate developmental transitions.</p>
+    <p>Tracking methodology can range from simple visual feature matching to more advanced association logic using motion, appearance, and spatiotemporal continuity. Without a robust tracking step, repeated detections may be treated as distinct fruits and the count becomes inflated. In yield-estimation tasks, temporal data are therefore a methodological necessity rather than an optional extension.</p>
+
+    <h3 id="s3-3">3.3 Temporal Feature Extraction and Prediction Results</h3>
+    <p>Temporal feature extraction would typically include fruit appearance, change in visible diameter, maturity stage, shape consistency, and growth pattern over time. The key idea is that fruit development is not random; it follows a measurable progression that can be modelled. This makes the tracking and prediction stage highly relevant to pruning, harvest scheduling, and yield forecasting, especially in high-value fruit crops.</p>
+    <p>From the perspective of production estimation, temporal features are especially beneficial when they are linked to fruit sizing and local abundance. A model that recognises maturity progression is more useful than a model that only detects fruits at a single instant. Yet, this still requires calibration between visual growth and final fruit mass or commercial yield.</p>
+
+    <h3 id="s3-4">3.4 Critical Analysis and Limitations</h3>
+    <p>Temporal tracking strengthens the scientific case for precision orchard monitoring, but it does not by itself resolve the core agricultural problem. Tracking can improve object identity consistency and enable harvest-date prediction, but orchard-level production still depends on a representative estimate of the number of fruit-bearing structures, their sizes, and their mass distribution. In practice, repeated observations can still miss fruit that remain hidden within dense canopies or under branch occlusion. Temporal methods therefore reduce but do not eliminate uncertainty.</p>
+
+    <h3 id="s3-5">3.5 Relevance to Pre-Harvest Production Estimation</h3>
+    <p>Temporal tracking is directly relevant to the production-estimation problem because it enables a transition from static detections to dynamic crop-state estimation. It provides a way to evaluate the growth trajectory of fruit and the time at which fruit become economically mature. This is especially useful when the ultimate objective is to predict the harvest window or final crop output. The challenge remains to integrate growth tracking with robust counting and mass calibration so that the estimate can support actual orchard production assessment rather than mere fruit maturity prediction.</p>
+
+    <div class="page-break"></div>
+
+    <h2 id="section-4">4. ECONOMIC CONTEXT AND DECISION UNCERTAINTY</h2>
+    <p>Production estimation is not purely agronomic. Agricultural decisions are shaped by market dynamics, uncertainty, and economic value. A technically accurate fruit count may not be operationally useful unless it is connected to product quantity, price expectations, and orchard decision-making. This is why the economic literature is relevant to the report.</p>
+
+    <h3 id="s4-1">4.1 Mahajan et al. (2026): Agricultural Commodity Price Forecasting</h3>
+    <p><strong>Full citation:</strong> Mahajan, et al. (2026). <em>Agricultural Commodity Price Forecasting</em>. [Insert full bibliographic entry in the references section.]</p>
+    <p><strong>Dataset &amp; Hardware:</strong> The study is concerned with agricultural prices or market forecasting and is relevant to understanding how expected output influences market conditions. It represents the macro-level decision context within which fruit production estimates are useful.</p>
+    <p><strong>Core Architecture/Method:</strong> Price forecasting models typically use historical trend analysis, time-series modelling, and structured economic predictors. These methods help interpret how expected supply, seasonal variability, and market instability affect final revenue.</p>
+    <p><strong>Key Metrics:</strong> Forecast accuracy and error measures are central to economic modelling. Even if the exact metric values are not available in the repository, the role of the paper is conceptually clear: it demonstrates that agricultural decision-making depends on uncertainty-aware output forecasts.</p>
+    <p><strong>Critical analysis:</strong> Agricultural profitability cannot be predicted from crop detection alone. Price forecasts and market models show why output uncertainty matters financially. If the estimate of supply is uncertain, then downstream planning becomes uncertain as well. The economic case for a reliable production model is therefore strong even when the technical challenge remains unresolved.</p>
+
+    <h3 id="s4-2">4.2 Nematollahi et al. (2025): Contract Farming Under Uncertainty</h3>
+    <p><strong>Full citation:</strong> Nematollahi, et al. (2025). <em>Contract Farming Under Uncertainty</em>. [Insert exact reference in the reference list.]</p>
+    <p><strong>Dataset &amp; Hardware:</strong> This work is relevant to decision-making in agricultural contracts, where the actual agricultural output is uncertain and the parties must manage risk under incomplete information.</p>
+    <p><strong>Core Architecture/Method:</strong> Contract-farming models typically frame agreement design and coordination under uncertainty, where expected yield and price variability affect the terms of agricultural transactions.</p>
+    <p><strong>Key Metrics:</strong> The relevant evaluation is often in economic terms such as expected utility, agreement value, and risk-adjusted decision outcomes rather than crop-science performance measures.</p>
+    <p><strong>Critical analysis:</strong> This paper shows that uncertainty cannot be ignored in agricultural planning. A production-estimation system is therefore valuable not only because it counts fruits, but because it reduces uncertainty in planning and negotiation. Without reliable estimates, economic models are forced to work with broad assumptions and weak risk representation.</p>
+
+    <h3 id="s4-3">4.3 Abdurakhman et al. (2025): Fruit-Tree Lease Valuation</h3>
+    <p><strong>Full citation:</strong> Abdurakhman, et al. (2025). <em>Fruit-Tree Lease Valuation</em>. [Insert the exact bibliographic information.]</p>
+    <p><strong>Dataset &amp; Hardware:</strong> The study is oriented to agricultural asset valuation and long-term economic decisions. In orchard economics, tree condition, expected production, and future returns all influence the value of a lease or contractual arrangement.</p>
+    <p><strong>Core Architecture/Method:</strong> Lease valuation models incorporate uncertainty in production, expected seasonal output, and the future value of the asset. These models are sensitive to the quality of crop-level forecasts and the level of confidence in production estimates.</p>
+    <p><strong>Key Metrics:</strong> Economic decision metrics include valuation, expected returns, and risk-adjusted outcomes rather than technical detection accuracy. These are highly relevant to policy, leasing, and orchard investment decisions.</p>
+    <p><strong>Critical analysis:</strong> The valuation literature reinforces the need for reliable pre-harvest information. If the yield estimate is weak, then agricultural asset valuation becomes speculative. This indicates that the technical challenge of crop estimation is not isolated from economics; it is connected to decisions that have direct financial consequences.</p>
+
+    <h3 id="s4-4">4.4 Comparative Analysis of Economic Models</h3>
+    <p>Across price forecasting, contract farming, and lease valuation, a common theme emerges: uncertainty in agricultural output makes economic decision-making fragile. The economic models are potentially stronger when the underlying supply or yield estimate is better calibrated. In other words, economic decisions need better agronomic measurement at the production end of the pipeline. This makes the technical and economic parts of the problem complementary rather than separate.</p>
+
+    <h3 id="s4-5">4.5 Relevance of Reliable Production Estimates to Agricultural Decisions</h3>
+    <p>Reliable production estimates matter because they reduce uncertainty in the decisions that farmers, traders, and investors must make. Such decisions include orchard labour planning, harvest timing, market positioning, contract negotiation, and asset valuation. In the pomegranate context, where fruit size and mass vary across production cycles, a production-estimation pipeline should therefore be designed not only for technical performance but also for practical decision utility.</p>
+
+    <div class="page-break"></div>
+
+    <h2 id="section-5">5. RESEARCH GAPS: THE COUNT-TO-MASS CALIBRATION PROBLEM</h2>
+    <p>Across the reviewed literature, a consistent research gap emerges: most methods offer detection or size estimation, but fewer provide a robust conversion from image-based fruit observations to orchard-level production and economic value. This is the central issue around which the report is framed.</p>
+
+    <h3 id="s5-1">5.1 Detection Versus Unique Fruit Counting</h3>
+    <p>Object-detection models provide an estimate of visible fruit instances in an image. However, that is not necessarily the same as a unique fruit count for the tree or canopy. In orchard imagery, the same fruit may appear in multiple frames or from multiple viewpoints; in dense foliage it may also be partially or completely hidden. This makes a raw detection count susceptible to inflation or undercounting, and directly weakens the production estimate.</p>
+
+    <h3 id="s5-2">5.2 Canopy Occlusion and Visibility Limitations</h3>
+    <p>Occlusion is one of the most significant unresolved issues in fruit detection. Leaves, branches, and other fruits can obscure the fruit surface so that detection is incomplete. The visible fruit distribution is therefore not the same as the true fruit distribution. Any production estimate that ignores detection probability under occlusion risks systematic bias.</p>
+
+    <h3 id="s5-3">5.3 Fruit Diameter Versus Physical Mass</h3>
+    <p>Fruit diameter and size estimation are useful, but size is not equal to final mass or harvestable yield. Fruit mass depends on variety, maturity stage, water content, and fruit physiology. A model that estimates diameter without calibrating to fruit mass cannot directly estimate the commercial yield of a tree or orchard. This is one of the most important research gaps in the literature and is directly relevant to the objective of production assessment.</p>
+
+    <h3 id="s5-4">5.4 Multi-View Duplicate Detection and Temporal Tracking</h3>
+    <p>When multiple images are captured from different angles or over time, the same fruit may be detected repeatedly. This problem can be made worse by view overlap, temporal drift, or differences in illumination. Multi-view fusion and temporal tracking are needed to disentangle duplicate counts from true fruit counts. Without this process, the estimate may reflect data acquisition structure rather than crop state.</p>
+
+    <h3 id="s5-5">5.5 Missing Link Between Fruit Sensing and Total Production</h3>
+    <p>There remains a substantial gap between sensing fruit in a canopy and estimating total production for a tree or orchard. This missing link requires a multi-level model that connects detection, size, visibility probability, fruit mass calibration, and aggregation to tree-level and orchard-level output. The literature contains many useful sub-components but fewer integrated systems that connect them into a coherent production-estimation framework.</p>
+
+    <h3 id="s5-6">5.6 Limitations of Existing Economic Models for Physical Yield Estimation</h3>
+    <p>Economic models are valuable for understanding uncertainty, pricing, and valuation, but they frequently rely on assumptions that do not explicitly incorporate physical orchard yield estimation. In other words, the agronomic production estimate and the economic model are often separated. This separation weakens the usefulness of agricultural decision support. A production model is more valuable when it is physically grounded and linked to market and valuation outcomes.</p>
+
+    <h3 id="s5-7">5.7 Comparative Research-Gap Table</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Research area</th>
+          <th>Main contribution</th>
+          <th>Primary limitation</th>
+          <th>Impact on production estimation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Growth-stage classification</td>
+          <td>Tracks phenological development</td>
+          <td>Does not determine final fruit mass or total yield</td>
+          <td>Provides contextual development information only</td>
+        </tr>
+        <tr>
+          <td>Fruit detection (YOLO-style)</td>
+          <td>Identifies visible fruit in orchard images</td>
+          <td>Counts visible objects rather than calibrated fruit load</td>
+          <td>Requires occlusion and duplicate correction</td>
+        </tr>
+        <tr>
+          <td>Fruit size estimation</td>
+          <td>Measures fruit diameter/geometry</td>
+          <td>Does not directly map to physical mass or total production</td>
+          <td>Needs calibration for mass and economic yield</td>
+        </tr>
+        <tr>
+          <td>Temporal tracking</td>
+          <td>Improves association across time</td>
+          <td>Can still fail under heavy canopy occlusion</td>
+          <td>Useful for time-series yield estimation but not sufficient alone</td>
+        </tr>
+        <tr>
+          <td>Economic forecasting and valuation</td>
+          <td>Models uncertainty and decision value</td>
+          <td>Often detached from physical orchard production estimation</td>
+          <td>Reflects the need for better agronomic supply estimates</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="s5-8">5.8 Final Research-Gap Statement</h3>
+    <p>The central research gap can therefore be stated as follows: the literature provides strong evidence for fruit detection, stage recognition, temporal monitoring, size estimation, and economic decision modelling, but it does not yet provide a unified, robust, and calibrated method that transforms detections and size observations into reliable orchard-level pre-harvest production estimates. This is the count-to-mass calibration problem, and it is the core problem that motivates the proposed system architecture in the next chapter.</p>
+
+    <div class="page-break"></div>
+
+    <h2 id="section-6">6. PROPOSED SYSTEM ARCHITECTURE AND EVALUATION PROTOCOL</h2>
+    <h3 id="s6-1">6.1 Problem Statement and Core Objectives</h3>
+    <p>A practical yield-estimation system should support the following tasks: fruit detection, canopy segmentation, object counting, fruit-size estimation, view fusion, temporal tracking, and tree-level/ orchard-level production inference. The output should be physically interpretable and suitable for agricultural decision-making rather than purely image-level classification.</p>
+    <p>The objectives of the proposed architecture are therefore to: (i) detect fruit reliably in the canopy, (ii) estimate geometric size and fruit condition, (iii) reduce duplicates and occlusion effects, (iv) relate visible fruit characteristics to mass or production, and (v) aggregate estimates to tree- and orchard-level production under uncertainty.</p>
+
+    <h3 id="s6-2">6.2 Proposed Python-Based System Architecture</h3>
+    <p>The proposed system is designed as a modular Python pipeline. It begins with image acquisition and preprocessing, followed by fruit detection and segmentation, then size estimation and calibration, and finally aggregation and uncertainty analysis. A typical implementation would involve OpenCV for image processing, PyTorch or a detection framework for model inference, and analytical modules for mass calibration and yield aggregation.</p>
+    <p>The architecture can be organised into the following components:</p>
+    <ul>
+      <li><strong>Input module:</strong> orchard images, camera metadata, temporal observations, and geolocation/tree identifiers.</li>
+      <li><strong>Preprocessing:</strong> colour correction, resizing, enhancement, and background-normalisation to reduce environmental variation.</li>
+      <li><strong>Detection module:</strong> fruit localisation and instance extraction using a YOLO-style or equivalent CNN pipeline.</li>
+      <li><strong>Segmentation module:</strong> fruit region isolation and boundary refinement for diameter estimation.</li>
+      <li><strong>Geometry module:</strong> conversion of segmented fruit to diameter, area, and 3D or projected size measures.</li>
+      <li><strong>Calibration module:</strong> mapping image-derived fruit dimensions to physical mass or yield per fruit.</li>
+      <li><strong>Tracking/fusion module:</strong> duplicate removal across views and temporal observations.</li>
+      <li><strong>Aggregation module:</strong> tree-level and orchard-level yield estimation from calibrated fruit measurements.</li>
+      <li><strong>Uncertainty module:</strong> confidence bounds, sensitivity analysis, and decision support under occlusion and measurement variability.</li>
+    </ul>
+
+    <h3 id="s6-3">6.3 System Workflow and Module Description</h3>
+    <p>At a workflow level, the system begins by capturing a time series of orchard images. These images are preprocessed and then passed to the detection model to identify fruit candidates. Candidate instances are segmented, measured, and associated across image views or time points. The yield estimator then aggregates fruit-level values into tree-level estimates and orchard-level production estimates by applying a calibration function that relates visible fruit dimensions to crop mass or yield.</p>
+    <p>The report emphasises that processing should remain modular. Each stage can be evaluated independently while the final estimate is produced only after successful fusion of detection, geometry, and calibration outputs. This is scientifically important because isolated module performance does not guarantee end-to-end yield accuracy.</p>
+
+    <h3 id="s6-4">6.4 Dataset Requirements and Image Acquisition</h3>
+    <p>The dataset should include images sampled across growth stages, multiple trees, varying lighting, and repeated capture over time. It should include annotations of fruit positions, segmentation masks, dimensions, and associated metadata such as date, tree identifier, camera viewpoint, and season. The acquisition pipeline must be designed to support both detection and calibration tasks, not only classification.</p>
+    <p>A robust dataset would support model development in three stages: training, validation, and stress testing. Stress tests should include heavy occlusion, partially visible fruits, low-light conditions, and canopy-density variability. Without these conditions, the model may appear accurate in controlled conditions but fail in operational orchard environments.</p>
+
+    <h3 id="s6-5">6.5 Fruit Detection, Segmentation, and Counting</h3>
+    <p>Fruit detection is performed on orchard images using a YOLO-style detector or equivalent high-performance deep-learning framework. The detected instances are then segmented to separate fruit from leaves, branches, and the background. Segmentation improves both the reliability of the count and the accuracy of the size estimate because it allows the fruit boundary to be measured rather than approximated from a bounding box alone.</p>
+    <p>The count module should be designed to distinguish between visible fruit count, unique fruit count, and estimated total fruit load. Visible fruit count is the number of fruit instances in an image; unique fruit count is the number of distinct fruit observed across views or frames; estimated total fruit load is the orchard-level estimate after calibration and inference under occlusion. The distinction is important because production estimation is fundamentally about the latter, not the former.</p>
+
+    <h3 id="s6-6">6.6 Fruit-Size Estimation and Mass Calibration</h3>
+    <p>Fruit-size estimation can be based on several geometric outputs, including projected diameter, contour length, area, or 3D depth-derived dimension. These measurements are then mapped to fruit mass using a calibration model. This is the critical stage at which the system moves from detection to production estimation. Without a mass curve or calibration relation, size measurements are not sufficient for yield assessment.</p>
+    <p>The calibration equation can be expressed in a general form as:</p>
+    <div class="equation">
+      m_i = f(d_i, g_i, s_i, 	heta_i)
+    </div>
+    <p>where <em>m_i</em> is the fruit mass, <em>d_i</em> is the image-derived size or diameter, <em>g_i</em> denotes fruit geometry, <em>s_i</em> represents maturity or growth stage, and <em>	heta_i</em> denotes model or orchard-specific calibration parameters. This equation is intentionally general because the exact dependence varies with cultivar, camera geometry, and orchard conditions.</p>
+
+    <h3 id="s6-7">6.7 Tree-Level Yield and Orchard Production Estimation</h3>
+    <p>At the tree level, the estimate is formed by summing the calibrated mass for all detected and inferred fruit according to the model. For a tree <em>t</em>, the production estimate can be represented generically as:</p>
+    <div class="equation">
+      Y_t = _{i=1}^{N_t} m_i  d7 ho_i
+    </div>
+    <p>where <em>Y_t</em> is the estimated yield, <em>N_t</em> is the estimated fruit count for the tree, and <em>ho_i</em> represents a correction factor for visibility, duplicate removal, or fruit-specific weight adjustment. The orchard-level estimate is then obtained by aggregation across trees:</p>
+    <div class="equation">
+      Y_O = _{t=1}^{T} Y_t
+    </div>
+    <p>This formulation clarifies that orchard-level production estimation depends on the connection between individual fruit measurements and tree-level aggregation. The system should therefore support both fruit-level and aggregate-level reporting.</p>
+
+    <h3 id="s6-8">6.8 Mathematical Formulation and Assumptions</h3>
+    <p>The pipeline should be built on a set of practical assumptions. These include: (a) fruit instances are detectable using a vision model under the given canopy conditions, (b) image-derived size is correlated with physical mass, (c) duplicate detections can be suppressed through tracking or multiview fusion, and (d) the calibration relation is stable within a crop season or a defined orchard environment. These assumptions are reasonable in orchard monitoring but must be validated carefully rather than assumed automatically.</p>
+    <p>The final estimate is therefore not a single deterministic value but a probability-informed estimate subject to uncertainty. In engineering terms, the system should report confidence intervals or uncertainty bands along with the estimated yield. This is particularly important when the production estimate is used in contract decisions or orchard planning.</p>
+
+    <h3 id="s6-9">6.9 Validation Protocol and Evaluation Metrics</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Evaluation objective</th>
+          <th>Recommended metric</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Fruit detection</td>
+          <td>Ability to localise fruit in orchard images</td>
+          <td>Precision, Recall, F1-score, mAP</td>
+        </tr>
+        <tr>
+          <td>Segmentation</td>
+          <td>Boundary quality and fruit region separation</td>
+          <td>IoU, Dice score, boundary error</td>
+        </tr>
+        <tr>
+          <td>Fruit size estimation</td>
+          <td>Correlation between estimated geometric size and physical size</td>
+          <td>MAE, RMSE, R², percentage error</td>
+        </tr>
+        <tr>
+          <td>Counting</td>
+          <td>Counter accuracy after duplicate correction and occlusion handling</td>
+          <td>Counting error, absolute error, relative error</td>
+        </tr>
+        <tr>
+          <td>Yield estimation</td>
+          <td>Consistency of tree/orchard production estimate</td>
+          <td>Bias, RMSE, calibration error, uncertainty coverage</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Validation should proceed in stages: fruit detection, segmentation, size estimation, tracking, and finally total production estimation. A system that performs well in the first stage but fails in the final aggregation stage should not be considered successful for agricultural decision-making.</p>
+
+    <h3 id="s6-10">6.10 Expected Outcomes</h3>
+    <p>The expected outcomes of the proposed system are a scientifically grounded method for pre-harvest yield estimation that can be implemented in Python and adapted to orchard conditions. The method should provide useful estimates of fruit count, fruit size, and tree- or orchard-level yield while making uncertainty explicit. This would provide a stronger basis for decision-making than detection-only approaches.</p>
+
+    <h3 id="s6-11">6.11 Scope Boundaries, Feasibility, and Implementation Roadmap</h3>
+    <p>The proposed method is feasible for a project or thesis context because the underlying components are already represented in the literature and in the extracted repository figures. The challenge is the integration of components into a single calibrated pipeline rather than the invention of entirely new technology. In practical terms, the system can be implemented in iterative stages: image collection, object detection, size estimation, fruit tracking, mass calibration, and aggregation.</p>
+    <p>The realistic roadmap is therefore incremental. An initial implementation may focus on the single-tree case with controlled imaging. The next step is to extend the model to multiple trees and field conditions. The final stage is orchard-wide production estimation with uncertainty quantification and economic interpretation.</p>
+
+    <h3 id="s6-12">6.12 Limitations and Future Work</h3>
+    <p>Despite the promise of the proposed framework, several limitations remain. Detection will continue to be affected by occlusion and variable illumination. Size estimation may not generalise across cultivars or orchard conditions without calibration. Temporal tracking may fail when fruit motion or view geometry is unstable. And the mass calibration problem remains a central challenge because physical yield depends on fruit attributes that are not captured by image patterns alone.</p>
+    <p>Future work should therefore focus on calibration datasets linking fruit geometry to physical mass, cross-view and temporal fusion methods, and uncertainty-aware reporting. In addition, there is a need to connect crop production estimates with economic decision models so that the output is actionable for orchard managers and agricultural stakeholders.</p>
+
+    <div class="page-break"></div>
+
+    <h2>References</h2>
+    <ol>
+      <li>Abdurakhman, A., et al. (2025). <em>Fruit-Tree Lease Valuation</em>. [Insert the correct full bibliographic reference in the final formatted bibliography.]</li>
+      <li>Devanna, F., et al. (2025). <em>On-Tree Detection and 3D Fruit-Size Estimation</em>. [Insert full publication details.]</li>
+      <li>Giménez-Gallego, J., et al. (2025). <em>Fruit Monitoring and Harvest-Date Prediction Using On-Tree Automatic Image Tracking</em>. [Insert final bibliographic entry.]</li>
+      <li>Mahajan, et al. (2026). <em>Agricultural Commodity Price Forecasting</em>. [Insert final bibliographic entry.]</li>
+      <li>Naseer, A., et al. (2024). <em>Pomegranate Growth-Stage Classification</em>. [Insert full bibliographic entry.]</li>
+      <li>Nematollahi, A., et al. (2025). <em>Contract Farming Under Uncertainty</em>. [Insert full bibliographic entry.]</li>
+      <li>Zhao, Y., et al. (2024). <em>YOLO-Granada: Fruit Detection and On-Tree Vision Pipeline</em>. [Insert full bibliographic entry.]</li>
+    </ol>
+    <p class="footnote">Note: In the final polished document, the full reference list should be standardised to a consistent academic format (APA, Harvard, or IEEE) and should include complete author names, publication venue, year, DOI or identifier, and page details where available.</p>
+
+    <div class="page-break"></div>
+
+    <h2>Appendix A. Repository Figure Notes</h2>
+    <p>The repository contains extracted figures that support the structure of this report. These figure assets are valuable for presentation and academic narration, and include YOLO-based detection outputs, temporal tracking figures, size-estimation diagrams, and economic charts. The relevant file categories are:</p>
+    <ul>
+      <li>YOLO-Granada / fruit detection and growth-stage figures</li>
+      <li>Fruit_Tracking_Harvest_Prediction / temporal tracking and prediction figures</li>
+      <li>Pomegranate_Size_Estimation_Robot / segmentation, depth, 3D projection, and fruit diameter estimation</li>
+      <li>Agricultural_Price_Forecasting / market and trend charts</li>
+      <li>Fruit_Tree_Lease_Valuation / valuation model figures</li>
+      <li>Agricultural_Production_Research / yield and production figures</li>
+    </ul>
+    <p>These figures should be retained with source attribution in the final polished academic version. Their role is to reinforce the conceptual narrative and to show how the literature converges on the central count-to-mass and production-estimation challenge.</p>
+  </div>
+</body>
+</html>
